@@ -502,7 +502,7 @@ export default function Home() {
           Top escort cities
         </h1>
 
-        <div className="flex items-center justify-between w-full px-5">
+        <div className="flex items-center justify-between w-full">
           <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
             <li>
               <Link href={"/"}>Boston</Link>
@@ -555,8 +555,7 @@ export default function Home() {
         /> */}
       </div>
 
-      <h1 className="flex items-center gap-2 text-slate-800 text-xl md:text-3xl mb-5">
-        <FaLocationDot />
+      <h1 className=" text-slate-800 text-xl md:text-3xl mb-5">
         Find and meet service providers anywhere
       </h1>
       <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-5 md:mb-0">
