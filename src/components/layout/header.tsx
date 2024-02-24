@@ -4,19 +4,19 @@ import { Button } from "@/components/ui/button";
 
 const Header = () => {
   return (
-    <div className="border-b">
-      <div className="flex flex-col md:flex-row items-start gap-4 md:items-center justify-between max-w-5xl py-4 mx-auto px-4 w-full">
-        <div className="space-y-0.5">
+    <div className="border-b shadow-sm md:shadow-none">
+      <div className="flex flex-col md:flex-row items-center gap-4 md:items-center justify-center md:justify-between max-w-5xl py-4 mx-auto px-4 w-full">
+        <div className="space-y-0.5 md:text-start text-center">
           <Link className="text-3xl font-semibold text-primary" href={"/"}>
             Logo
           </Link>
-          <h1 className="text-xs font-light text-zinc-700">
+          <h1 className="md:text-xs md:font-light text-slate-400 md:text-zinc-700 text-md font-medium">
             Skip the games. Get satisfaction.
           </h1>
         </div>
 
         <div className="w-full md:max-w-sm">
-          <Button className="w-full" size={"lg"}>
+          <Button className="font-bold w-full" size={"lg"}>
             Login / Signup
           </Button>
         </div>

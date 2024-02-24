@@ -25,11 +25,11 @@ const config = {
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
+        ring: "#990033",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "#990033",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -76,6 +76,9 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      fontFamily: {
+        
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

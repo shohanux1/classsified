@@ -24,12 +24,12 @@ const Filter = () => {
     <div className="py-4 bg-white md:bg-slate-100 md:shadow-sm border-0 md:border-b">
       <div
         className={cn(
-          "md:flex flex-col md:flex-row items-center justify-between gap-4 max-w-5xl mx-auto px-4 w-full",
-          !showFilter ? "hidden" : "flex"
+          "hidden md:grid md:grid-cols-8 gap-4  max-w-5xl mx-auto px-4 w-full",
+          !showFilter ? "hidden" : "grid"
         )}
       >
         <Select>
-          <SelectTrigger className="w-full bg-white">
+          <SelectTrigger className="md:col-span-1 bg-white">
             <SelectValue placeholder="I am a" />
           </SelectTrigger>
           <SelectContent>
@@ -39,7 +39,7 @@ const Filter = () => {
           </SelectContent>
         </Select>
         <Select>
-          <SelectTrigger className="w-full bg-white">
+          <SelectTrigger className="md:col-span-2 bg-white">
             <SelectValue placeholder="Looking for a" />
           </SelectTrigger>
           <SelectContent>
@@ -54,8 +54,14 @@ const Filter = () => {
             <SelectItem value="snap">Web / Snap entertainer</SelectItem>
           </SelectContent>
         </Select>
-        <Input className="bg-white" placeholder="City name (required)" />
-        <Input className="bg-white" placeholder="Blonde, asian, gfe..." />
+        <Input
+          className="bg-white md:col-span-2"
+          placeholder="City name (required)"
+        />
+        <Input
+          className="bg-white md:col-span-2"
+          placeholder="Blonde, asian, gfe..."
+        />
         <Button className="text-xl w-full" size={"icon"}>
           <CiSearch />
         </Button>

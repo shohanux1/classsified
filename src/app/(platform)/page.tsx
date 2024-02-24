@@ -1,7 +1,12 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+
 import Providercard from "@/components/custom/provider-card";
-import { Accordion } from "@/components/ui/accordion";
+import ProviderPhotos from "@/components/custom/provider-photos";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const usaStates = [
   {
@@ -490,35 +495,204 @@ const europeCountry = [
 
 export default function Home() {
   return (
-    <div className="max-w-5xl mx-auto px-4 ">
-      <div className="py-4 md:pt-10">
-        <div className="grid md:grid-cols-2 gap-3 md:gap-4">
-          <div className="flex flex-col gap-3 md:gap-4 w-full">
-            <Providercard states={usaStates} value="usa" country="USA" />
-            <Providercard
-              states={canadaStates}
-              value="canada"
-              country="CANADA"
-            />
-            <Providercard
-              value="middle_east"
-              country="the Middle East & Africa"
-            />
-          </div>
+    <div className="max-w-5xl mx-auto px-4 pb-10">
+      <div className="flex flex-col items-center mt-5 mb-10 md:my-12 max-w-2xl w-4/5 md:w-full mx-auto">
+        <h1 className="text-xl md:text-3xl mb-6 text-center">
+          Top escort cities
+        </h1>
 
-          <div className="flex flex-col gap-3 md:gap-4 w-full">
-            <Providercard
-              states={europeCountry}
-              value="europe"
-              country="Europe"
-            />
-            <Providercard
-              value="americans"
-              country="the Americans & Caribbeean"
-            />
-            <Providercard value="asia" country="Asia & Australia" />
-          </div>
+        <div className="flex items-center justify-between w-full ">
+          <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
+            <li>
+              <Link href={"/"}>Boston</Link>
+            </li>
+            <li>
+              <Link href={"/"}>Chicago</Link>
+            </li>
+            <li>
+              <Link href={"/"}>Dallas</Link>
+            </li>
+            <li>
+              <Link href={"/"}>Dubai</Link>
+            </li>
+          </ul>
+          <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
+            <li>
+              <Link href={"/"}>Las Vegas</Link>
+            </li>
+            <li>
+              <Link href={"/"}>London</Link>
+            </li>
+            <li>
+              <Link href={"/"}>New York City</Link>
+            </li>
+            <li>
+              <Link href={"/"}>Philadelphia</Link>
+            </li>
+          </ul>
+
+          <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
+            <li>
+              <Link href={"/"}>Shanghai</Link>
+            </li>
+            <li>
+              <Link href={"/"}>Sydney</Link>
+            </li>
+            <li>
+              <Link href={"/"}>Toronto</Link>
+            </li>
+            <li>
+              <Link href={"/"}>Vancouver</Link>
+            </li>
+          </ul>
         </div>
+
+        {/* <Image
+          src={HeroImage}
+          alt="Imgae"
+          className="transform -scale-x-100 h-64 w-64 object-contain hidden md:block"
+        /> */}
+      </div>
+
+      <h1 className="text-xl md:text-3xl mb-4">
+        Find and meet service providers anywhere
+      </h1>
+      <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-5 md:mb-0">
+        <div className="flex flex-col gap-3 md:gap-4 w-full">
+          <Providercard states={usaStates} value="usa" country="USA" />
+          <Providercard states={canadaStates} value="canada" country="CANADA" />
+          <Providercard
+            value="middle_east"
+            country="the Middle East & Africa"
+          />
+        </div>
+
+        <div className="flex flex-col gap-3 md:gap-4 w-full">
+          <Providercard
+            states={europeCountry}
+            value="europe"
+            country="Europe"
+          />
+          <Providercard
+            value="americans"
+            country="the Americans & Caribbeean"
+          />
+          <Providercard value="asia" country="Asia & Australia" />
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-3 lg:my-4">
+        <ProviderPhotos name="Popular provider photos">
+          <Tabs defaultValue="female">
+            <TabsList>
+              <TabsTrigger value="female">Female</TabsTrigger>
+              <TabsTrigger value="ts">TS</TabsTrigger>
+              <TabsTrigger value="male">Male</TabsTrigger>
+            </TabsList>
+            <TabsContent value="female">
+              <div className="grid grid-cols-3 gap-4 p-4 bg-slate-100 rounded-lg max-w-md w-full">
+                <Link href={"/"}>
+                  <Image
+                    alt="Image"
+                    className="h-28 w-full object-cover object-center rounded-lg transition hover:scale-110"
+                    width={100}
+                    height={100}
+                    src="https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  />
+                </Link>
+
+                <Link href={"/"}>
+                  <Image
+                    alt="Image"
+                    className="h-28 w-full object-cover object-center rounded-lg transition hover:scale-110"
+                    width={100}
+                    height={100}
+                    src="https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  />
+                </Link>
+
+                <Link href={"/"}>
+                  <Image
+                    alt="Image"
+                    className="h-28 w-full object-cover object-center rounded-lg transition hover:scale-110"
+                    width={100}
+                    height={100}
+                    src="https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  />
+                </Link>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </ProviderPhotos>
+        <ProviderPhotos name="Popular provider posts">
+          <Tabs defaultValue="female">
+            <TabsList>
+              <TabsTrigger value="female">Female</TabsTrigger>
+              <TabsTrigger value="ts">TS</TabsTrigger>
+              <TabsTrigger value="male">Male</TabsTrigger>
+            </TabsList>
+            <TabsContent value="female">
+              <div className="grid grid-cols-3 gap-4 p-4 bg-slate-100 rounded-lg max-w-md w-full">
+                <Link href={"/"}>
+                  <Image
+                    alt="Image"
+                    className="h-28 w-full object-cover object-center rounded-lg transition hover:scale-110"
+                    width={100}
+                    height={100}
+                    src="https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  />
+                </Link>
+
+                <Link href={"/"}>
+                  <Image
+                    alt="Image"
+                    className="h-28 w-full object-cover object-center rounded-lg transition hover:scale-110"
+                    width={100}
+                    height={100}
+                    src="https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  />
+                </Link>
+
+                <Link href={"/"}>
+                  <Image
+                    alt="Image"
+                    className="h-28 w-full object-cover object-center rounded-lg transition hover:scale-110"
+                    width={100}
+                    height={100}
+                    src="https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  />
+                </Link>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </ProviderPhotos>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-3 lg:my-4">
+        <ProviderPhotos name="Latest escort articles">
+          <ul className="marker:text-slate-800 space-y-1  text-primary ">
+            <li className="text-sm cursor-pointer transition hover:translate-x-1 ">
+              <Link href="/">SkipTheGames.com FAQ</Link>
+            </li>
+            <li className="text-sm cursor-pointer transition hover:translate-x-1 ">
+              <Link href="/">★ DO NOT let hackers control your account ★</Link>
+            </li>
+          </ul>
+        </ProviderPhotos>
+        <ProviderPhotos name="Most read escort articles">
+          <ul className="marker:text-slate-800 space-y-1  text-primary ">
+            <li className="text-sm cursor-pointer transition hover:translate-x-1 ">
+              <Link href="/">
+                Escort terms, sex definitions and abbreviations in escort ads
+              </Link>
+            </li>
+            <li className="text-sm cursor-pointer transition hover:translate-x-1 ">
+              <Link href="/">
+                ★ How to identify fake escort posts and avoid scams
+              </Link>
+            </li>
+          </ul>
+        </ProviderPhotos>
       </div>
     </div>
   );

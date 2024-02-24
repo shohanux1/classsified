@@ -15,30 +15,11 @@ type ProvidercardProps = {
   states?: Array<{ name: string; code?: string }>;
 };
 
-// const Providercard = ({ country, value, states }: ProvidercardProps) => {
-//   return (
-//     <div>
-//       <div className="flex items-center justify-between text-sm font-normal md:text-md md:font-medium bg-slate-300 hover:no-underline px-5 rounded-md py-3">
-//         Providers in {country}
-//         <GoChevronDown className="h-5 w-5" />
-//       </div>
-
-//       <ul className="marker:text-slate-800 space-y-1.5 columns-2  list-disc list-inside text-primary p-5">
-//         {states?.map(({ name, code }) => (
-//           <li key={code} className="text-base cursor-pointer transition ">
-//             <Link href="/">{name}</Link>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
 const Providercard = ({ country, value, states }: ProvidercardProps) => {
   return (
-    <Accordion defaultValue={value} type="single" collapsible>
+    <Accordion type="single" collapsible>
       <AccordionItem defaultValue="usa" className="border-none" value={value}>
-        <AccordionTrigger className="flex items-center justify-between text-sm font-normal md:text-md md:font-medium bg-slate-200 hover:no-underline px-5 rounded-md py-3">
+        <AccordionTrigger className="flex items-center justify-between text-md rounded-lg md:font-medium bg-slate-200 hover:no-underline px-5  py-3">
           Providers in {country}
         </AccordionTrigger>
         <AccordionContent>
