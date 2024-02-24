@@ -19,7 +19,7 @@ const Providercard = ({ country, value, states }: ProvidercardProps) => {
   return (
     <Accordion type="single" collapsible>
       <AccordionItem defaultValue="usa" className="border-none" value={value}>
-        <AccordionTrigger className="flex items-center justify-between text-md rounded-lg md:font-medium bg-slate-200 hover:no-underline px-5  py-3">
+        <AccordionTrigger className="flex items-center justify-between rounded-lg md:font-medium bg-slate-200 hover:no-underline px-5  py-3">
           Providers in {country}
         </AccordionTrigger>
         <AccordionContent>

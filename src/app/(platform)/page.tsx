@@ -7,6 +7,7 @@ import Providercard from "@/components/custom/provider-card";
 import ProviderPhotos from "@/components/custom/provider-photos";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FaLocationDot } from "react-icons/fa6";
 
 const usaStates = [
   {
@@ -497,11 +498,11 @@ export default function Home() {
   return (
     <div className="max-w-5xl mx-auto px-4 pb-10">
       <div className="flex flex-col items-center mt-5 mb-10 md:my-12 max-w-2xl w-full mx-auto">
-        <h1 className="text-xl md:text-3xl mb-6 text-center">
+        <h1 className="text-xl md:text-3xl mb-6 text-center text-slate-800">
           Top escort cities
         </h1>
 
-        <div className="flex items-center justify-between w-full ">
+        <div className="flex items-center justify-between w-full px-5">
           <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
             <li>
               <Link href={"/"}>Boston</Link>
@@ -554,7 +555,8 @@ export default function Home() {
         /> */}
       </div>
 
-      <h1 className="text-xl md:text-3xl mb-4">
+      <h1 className="flex items-center gap-2 text-slate-800 text-xl md:text-3xl mb-5">
+        <FaLocationDot />
         Find and meet service providers anywhere
       </h1>
       <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-5 md:mb-0">
