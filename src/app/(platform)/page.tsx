@@ -496,7 +496,7 @@ const europeCountry = [
 export default function Home() {
   return (
     <div className="max-w-5xl mx-auto px-4 pb-10">
-      <div className="flex flex-col items-center mt-5 mb-10 md:my-12 max-w-2xl w-4/5 md:w-full mx-auto">
+      <div className="flex flex-col items-center mt-5 mb-10 md:my-12 max-w-2xl w-full mx-auto">
         <h1 className="text-xl md:text-3xl mb-6 text-center">
           Top escort cities
         </h1>
