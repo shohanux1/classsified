@@ -7,7 +7,7 @@ import Providercard from "@/components/custom/provider-card";
 import ProviderPhotos from "@/components/custom/provider-photos";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FaLocationDot } from "react-icons/fa6";
+import HeroImage from "../../../public/condom.jpeg";
 
 const usaStates = [
   {
@@ -497,62 +497,64 @@ const europeCountry = [
 export default function Home() {
   return (
     <div className="max-w-5xl mx-auto px-4 pb-10">
-      <div className="flex flex-col items-center mt-5 mb-10 md:my-12 max-w-2xl w-full mx-auto">
-        <h1 className="text-xl md:text-3xl mb-6 text-center text-slate-800">
-          Top escort cities
-        </h1>
+      <div className="flex  items-center justify-between mt-5 md:mb-4 mb-8 w-full mx-auto">
+        <div className="w-full max-w-2xl">
+          <h1 className="text-xl md:text-3xl mb-5 md:mb-8  text-slate-800 text-center md:text-start">
+            Top escort cities
+          </h1>
 
-        <div className="flex items-center justify-between w-full">
-          <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
-            <li>
-              <Link href={"/"}>Boston</Link>
-            </li>
-            <li>
-              <Link href={"/"}>Chicago</Link>
-            </li>
-            <li>
-              <Link href={"/"}>Dallas</Link>
-            </li>
-            <li>
-              <Link href={"/"}>Dubai</Link>
-            </li>
-          </ul>
-          <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
-            <li>
-              <Link href={"/"}>Las Vegas</Link>
-            </li>
-            <li>
-              <Link href={"/"}>London</Link>
-            </li>
-            <li>
-              <Link href={"/"}>New York City</Link>
-            </li>
-            <li>
-              <Link href={"/"}>Philadelphia</Link>
-            </li>
-          </ul>
+          <div className="flex items-center justify-between w-full md:px-0 px-12">
+            <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
+              <li>
+                <Link href={"/"}>Boston</Link>
+              </li>
+              <li>
+                <Link href={"/"}>Chicago</Link>
+              </li>
+              <li>
+                <Link href={"/"}>Dallas</Link>
+              </li>
+              <li>
+                <Link href={"/"}>Dubai</Link>
+              </li>
+            </ul>
+            <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
+              <li>
+                <Link href={"/"}>Las Vegas</Link>
+              </li>
+              <li>
+                <Link href={"/"}>London</Link>
+              </li>
+              <li>
+                <Link href={"/"}>New York City</Link>
+              </li>
+              <li>
+                <Link href={"/"}>Philadelphia</Link>
+              </li>
+            </ul>
 
-          <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
-            <li>
-              <Link href={"/"}>Shanghai</Link>
-            </li>
-            <li>
-              <Link href={"/"}>Sydney</Link>
-            </li>
-            <li>
-              <Link href={"/"}>Toronto</Link>
-            </li>
-            <li>
-              <Link href={"/"}>Vancouver</Link>
-            </li>
-          </ul>
+            <ul className="hidden lg:block list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
+              <li>
+                <Link href={"/"}>Las Vegas</Link>
+              </li>
+              <li>
+                <Link href={"/"}>London</Link>
+              </li>
+              <li>
+                <Link href={"/"}>New York City</Link>
+              </li>
+              <li>
+                <Link href={"/"}>Philadelphia</Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* <Image
+        <Image
           src={HeroImage}
           alt="Imgae"
           className="transform -scale-x-100 h-64 w-64 object-contain hidden md:block"
-        /> */}
+        />
       </div>
 
       <h1 className=" text-slate-800 text-xl md:text-3xl mb-5">

@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-2">
         <div>Website domain</div>
 
-        <ul className="flex items-center gap-4 md:gap-8 text-primary ">
+        <ul className="flex items-center text-sm md:text-base gap-4 md:gap-8 text-primary ">
           <li className="cursor-pointer ">
             <Link href="/">About</Link>
           </li>

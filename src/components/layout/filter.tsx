@@ -28,16 +28,18 @@ const Filter = () => {
           !showFilter ? "hidden" : "grid"
         )}
       >
-        <Select>
-          <SelectTrigger className="md:col-span-1 bg-white">
-            <SelectValue placeholder="I am a" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="man">Man</SelectItem>
-            <SelectItem value="woman">Woman</SelectItem>
-            <SelectItem value="couple">Couple</SelectItem>
-          </SelectContent>
-        </Select>
+        <Button className="text-xl w-full" size={"icon"}>
+          <CiSearch />
+        </Button>
+
+        <Input
+          className="bg-white md:col-span-2"
+          placeholder="City name (required)"
+        />
+        <Input
+          className="bg-white md:col-span-2"
+          placeholder="Blonde, asian, gfe..."
+        />
         <Select>
           <SelectTrigger className="md:col-span-2 bg-white">
             <SelectValue placeholder="Looking for a" />
@@ -54,17 +56,16 @@ const Filter = () => {
             <SelectItem value="snap">Web / Snap entertainer</SelectItem>
           </SelectContent>
         </Select>
-        <Input
-          className="bg-white md:col-span-2"
-          placeholder="City name (required)"
-        />
-        <Input
-          className="bg-white md:col-span-2"
-          placeholder="Blonde, asian, gfe..."
-        />
-        <Button className="text-xl w-full" size={"icon"}>
-          <CiSearch />
-        </Button>
+        <Select>
+          <SelectTrigger className="md:col-span-1 bg-white">
+            <SelectValue placeholder="I am a" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="man">Man</SelectItem>
+            <SelectItem value="woman">Woman</SelectItem>
+            <SelectItem value="couple">Couple</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="text-center mt-4 md:hidden max-w-sm mx-auto">
