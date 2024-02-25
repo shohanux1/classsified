@@ -21,9 +21,11 @@ const Header = ({ button }: HeaderProps) => {
 
         {button && (
           <div className="w-full md:max-w-sm">
-            <Button className="font-bold w-full" size={"lg"}>
-              Login / Signup
-            </Button>
+            <Link href={"/create-add"}>
+              <Button className="font-bold w-full" size={"lg"}>
+                Login / Signup
+              </Button>
+            </Link>
           </div>
         )}
       </div>
