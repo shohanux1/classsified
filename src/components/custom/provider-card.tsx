@@ -27,7 +27,7 @@ const Providercard = ({ country, value, states }: ProvidercardProps) => {
             <ul className="marker:text-slate-800 space-y-1.5 columns-2  list-disc list-inside text-primary p-5">
               {states?.map(({ name, code }) => (
                 <li key={code} className="text-base cursor-pointer transition ">
-                  <Link href="/">{name}</Link>
+                  <Link href={`state/${name}`}>{name}</Link>
                 </li>
               ))}
             </ul>

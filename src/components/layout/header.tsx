@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 type HeaderProps = {
-  button: boolean;
+  button: React.ReactNode;
 };
 
 const Header = ({ button }: HeaderProps) => {
@@ -19,15 +19,7 @@ const Header = ({ button }: HeaderProps) => {
           </h1>
         </div>
 
-        {button && (
-          <div className="w-full md:max-w-sm">
-            <Link href={"/create-ad"}>
-              <Button className="font-bold w-full" size={"lg"}>
-                Login / Signup
-              </Button>
-            </Link>
-          </div>
-        )}
+        {button}
       </div>
     </div>
   );
