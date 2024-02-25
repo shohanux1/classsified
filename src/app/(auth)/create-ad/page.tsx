@@ -12,7 +12,14 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const CreateAdd = () => {
   return (
@@ -85,7 +92,7 @@ const CreateAdd = () => {
                     If you want your city or area added to the list, please
                     write to
                     <span className="text-primary ml-1">
-                      {`support@skipthegames.com`}
+                      support@skipthegames.com
                     </span>
                   </p>
                 </div>
@@ -140,48 +147,35 @@ const CreateAdd = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ul className="text-sm font-normal space-y-2.5 text-slate-600 list-decimal ml-3.5">
+              <ul className="text-sm font-normal space-y-3 text-slate-600 list-decimal list-inside">
                 <li>All posters must be of legal age.</li>
                 <li>
-                  <p>
-                    {`You may not post any content or information of anyone that
-                    is not of legal age.`}
-                  </p>
+                  You may not post any content or information of anyone that is
+                  not of legal age.
                 </li>
                 <li>
-                  <p>
-                    {`You may not mention or infer that any person advertised is of
+                  <p></p>
+                  You may not mention or infer that any person advertised is of
                   less than legal age. Words like "young", "school girl-like" or
-                  similar may not be used.`}
-                  </p>
+                  similar may not be used.
                 </li>
                 <li>
-                  <p>
-                    {`You may not post images or personal information of another
-                    person without consent.`}
-                  </p>
+                  You may not post images or personal information of another
+                  person without consent.
                 </li>
                 <li>
-                  <p>
-                    {`  If posting in Escort/Massage/DOM categories, you may only
-                    post in the areas that you currently see people in.`}
-                  </p>
+                  If posting in Escort/Massage/DOM categories, you may only post
+                  in the areas that you currently see people in.
                 </li>
                 <li>
-                  <p>
-                    {`If you are touring, you MUST state the exact dates you are
-                    going to be in each of the cities you are visiting.`}
-                  </p>
+                  If you are touring, you MUST state the exact dates you are
+                  going to be in each of the cities you are visiting.
                 </li>
                 <li>
-                  <p>
-                    {` If you are primarily selling photos/videos/snap, you must
-                    post in the Cam/Snap/Web/Phone category.`}
-                  </p>
+                  If you are primarily selling photos/videos/snap, you must post
+                  in the Cam/Snap/Web/Phone category.
                 </li>
-                <li>
-                  <p>{`Only females may post in the Female escort category.`}</p>
-                </li>
+                <li>Only females may post in the Female escort category.</li>
               </ul>
             </CardContent>
           </Card>
