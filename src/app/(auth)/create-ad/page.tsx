@@ -150,31 +150,44 @@ const CreateAdd = () => {
               <ul className="text-sm font-normal space-y-2.5 text-slate-600 list-decimal list-inside">
                 <li>All posters must be of legal age.</li>
                 <li>
-                  You may not post any content or information of anyone that is
-                  not of legal age.
+                  <p>
+                    You may not post any content or information of anyone that
+                    is not of legal age.
+                  </p>
                 </li>
                 <li>
+                  <p></p>
                   You may not mention or infer that any person advertised is of
                   less than legal age. Words like "young", "school girl-like" or
                   similar may not be used.
                 </li>
                 <li>
-                  You may not post images or personal information of another
-                  person without consent.
+                  <p>
+                    You may not post images or personal information of another
+                    person without consent.
+                  </p>
                 </li>
                 <li>
-                  If posting in Escort/Massage/DOM categories, you may only post
-                  in the areas that you currently see people in.
+                  <p>
+                    If posting in Escort/Massage/DOM categories, you may only
+                    post in the areas that you currently see people in.
+                  </p>
                 </li>
                 <li>
-                  If you are touring, you MUST state the exact dates you are
-                  going to be in each of the cities you are visiting.
+                  <p>
+                    If you are touring, you MUST state the exact dates you are
+                    going to be in each of the cities you are visiting.
+                  </p>
                 </li>
                 <li>
-                  If you are primarily selling photos/videos/snap, you must post
-                  in the Cam/Snap/Web/Phone category.
+                  <p>
+                    If you are primarily selling photos/videos/snap, you must
+                    post in the Cam/Snap/Web/Phone category.
+                  </p>
                 </li>
-                <li>Only females may post in the Female escort category.</li>
+                <li>
+                  <p>Only females may post in the Female escort category.</p>
+                </li>
               </ul>
             </CardContent>
           </Card>
