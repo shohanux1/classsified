@@ -12,7 +12,7 @@ type LayoutProps = {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="bg-white">
-      <Header />
+      <Header button />
       <Filter />
       {children}
       <Footer />

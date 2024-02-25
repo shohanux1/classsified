@@ -504,7 +504,7 @@ export default function Home() {
           </h1>
 
           <div className="flex items-center justify-between w-full md:px-0 px-12">
-            <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
+            <ul className="list-disc list-inside text-primary text-base md:text-lg  space-y-1 ">
               <li>
                 <Link href={"/"}>Boston</Link>
               </li>
@@ -518,7 +518,7 @@ export default function Home() {
                 <Link href={"/"}>Dubai</Link>
               </li>
             </ul>
-            <ul className="list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
+            <ul className="list-disc list-inside text-primary text-base md:text-lg  space-y-1 ">
               <li>
                 <Link href={"/"}>Las Vegas</Link>
               </li>
@@ -533,7 +533,7 @@ export default function Home() {
               </li>
             </ul>
 
-            <ul className="hidden lg:block list-disc list-inside text-primary text-base md:text-[1.3rem] space-y-1 ">
+            <ul className="hidden lg:block list-disc list-inside text-primary text-base md:text-lg  space-y-1 ">
               <li>
                 <Link href={"/"}>Las Vegas</Link>
               </li>

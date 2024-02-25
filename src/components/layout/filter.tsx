@@ -28,7 +28,10 @@ const Filter = () => {
           !showFilter ? "hidden" : "grid"
         )}
       >
-        <Button className="text-xl w-full" size={"icon"}>
+        <Button
+          className="text-xl w-full order-last md:order-first"
+          size={"icon"}
+        >
           <CiSearch />
         </Button>
 

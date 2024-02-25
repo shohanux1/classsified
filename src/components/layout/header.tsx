@@ -2,7 +2,11 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-const Header = () => {
+type HeaderProps = {
+  button: boolean;
+};
+
+const Header = ({ button }: HeaderProps) => {
   return (
     <div className="border-b shadow-sm md:shadow-none">
       <div className="flex flex-col md:flex-row items-center gap-4 md:items-center justify-center md:justify-between max-w-5xl py-4 mx-auto px-4 w-full">
@@ -15,11 +19,13 @@ const Header = () => {
           </h1>
         </div>
 
-        <div className="w-full md:max-w-sm">
-          <Button className="font-bold w-full" size={"lg"}>
-            Login / Signup
-          </Button>
-        </div>
+        {button && (
+          <div className="w-full md:max-w-sm">
+            <Button className="font-bold w-full" size={"lg"}>
+              Login / Signup
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
