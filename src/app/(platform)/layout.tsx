@@ -1,4 +1,4 @@
-import Filter from "@/components/layout/Filter";
+import Filter from "@/components/layout/filter";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import React from "react";
