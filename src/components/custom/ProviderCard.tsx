@@ -1,6 +1,7 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
-import { GoChevronDown } from "react-icons/go";
 
 import {
   Accordion,
@@ -12,10 +13,14 @@ import {
 type ProvidercardProps = {
   country: string;
   value: string;
-  states?: Array<{ name: string; code?: string }>;
+  states?: Array<{ name: string; id?: string }>;
 };
 
 const Providercard = ({ country, value, states }: ProvidercardProps) => {
+  const fixPathName = (value: string) => {
+    return value.toLowerCase().split(" ").join("-");
+  };
+
   return (
     <Accordion type="single" collapsible>
       <AccordionItem defaultValue="usa" className="border-none" value={value}>
@@ -25,9 +30,9 @@ const Providercard = ({ country, value, states }: ProvidercardProps) => {
         <AccordionContent>
           {states ? (
             <ul className="marker:text-slate-800 space-y-1.5 columns-2  list-disc list-inside text-primary p-5">
-              {states?.map(({ name, code }) => (
-                <li key={code} className="text-base cursor-pointer transition ">
-                  <Link href={`state/${name}`}>{name}</Link>
+              {states?.map(({ name, id }) => (
+                <li key={id} className="text-base cursor-pointer transition ">
+                  <Link href={`state/${fixPathName(name)}`}>{name}</Link>
                 </li>
               ))}
             </ul>

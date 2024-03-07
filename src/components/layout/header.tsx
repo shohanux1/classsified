@@ -1,12 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
+import { getServerSession } from "next-auth";
+import SignOut from "../custom/SignOut";
+import { authOptions } from "@/lib/auth";
 
-type HeaderProps = {
-  button: React.ReactNode;
-};
+const Header = async () => {
+  const session = await getServerSession(authOptions);
 
-const Header = ({ button }: HeaderProps) => {
   return (
     <div className="border-b shadow-sm md:shadow-none">
       <div className="flex flex-col md:flex-row items-center gap-4 md:items-center justify-center md:justify-between max-w-5xl py-4 mx-auto px-4 w-full">
@@ -19,7 +20,31 @@ const Header = ({ button }: HeaderProps) => {
           </h1>
         </div>
 
-        {button}
+        {session?.user ? (
+          <div>
+            <h1 className="text-slate-800 transition-all hover:underline hover:text-primary cursor-pointer">
+              {session?.user.email}
+            </h1>
+            <div className="flex items-center  space-x-2 text-sm ">
+              <Link
+                className="text-slate-600 transition-all hover:underline hover:text-primary"
+                href={"/"}
+              >
+                your account
+              </Link>
+              <div className="h-3 w-0.5 bg-slate-500"></div>
+              <SignOut />
+            </div>
+          </div>
+        ) : (
+          <div className="w-full md:max-w-sm">
+            <Link href={"/create-ad"}>
+              <Button className="font-bold w-full" size={"lg"}>
+                Login / Signup
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

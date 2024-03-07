@@ -3,242 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import Providercard from "@/components/custom/provider-card";
-import ProviderPhotos from "@/components/custom/provider-photos";
+import Providercard from "@/components/custom/ProviderCard";
+import ProviderPhotos from "@/components/custom/ProviderPhotos";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import HeroImage from "../../../public/condom.jpeg";
-
-const usaStates = [
-  {
-    name: "Alabama",
-    code: "AL",
-  },
-  {
-    name: "Alaska",
-    code: "AK",
-  },
-  {
-    name: "American Samoa",
-    code: "AS",
-  },
-  {
-    name: "Arizona",
-    code: "AZ",
-  },
-  {
-    name: "Arkansas",
-    code: "AR",
-  },
-  {
-    name: "California",
-    code: "CA",
-  },
-  {
-    name: "Colorado",
-    code: "CO",
-  },
-  {
-    name: "Connecticut",
-    code: "CT",
-  },
-  {
-    name: "Delaware",
-    code: "DE",
-  },
-  {
-    name: "District Of Columbia",
-    code: "DC",
-  },
-  {
-    name: "Florida",
-    code: "FL",
-  },
-  {
-    name: "Georgia",
-    code: "GA",
-  },
-  {
-    name: "Guam",
-    code: "GU",
-  },
-  {
-    name: "Hawaii",
-    code: "HI",
-  },
-  {
-    name: "Idaho",
-    code: "ID",
-  },
-  {
-    name: "Illinois",
-    code: "IL",
-  },
-  {
-    name: "Indiana",
-    code: "IN",
-  },
-  {
-    name: "Iowa",
-    code: "IA",
-  },
-  {
-    name: "Kansas",
-    code: "KS",
-  },
-  {
-    name: "Kentucky",
-    code: "KY",
-  },
-  {
-    name: "Louisiana",
-    code: "LA",
-  },
-  {
-    name: "Maine",
-    code: "ME",
-  },
-  {
-    name: "Marshall Islands",
-    code: "MH",
-  },
-  {
-    name: "Maryland",
-    code: "MD",
-  },
-  {
-    name: "Massachusetts",
-    code: "MA",
-  },
-  {
-    name: "Michigan",
-    code: "MI",
-  },
-  {
-    name: "Minnesota",
-    code: "MN",
-  },
-  {
-    name: "Mississippi",
-    code: "MS",
-  },
-  {
-    name: "Missouri",
-    code: "MO",
-  },
-  {
-    name: "Montana",
-    code: "MT",
-  },
-  {
-    name: "Nebraska",
-    code: "NE",
-  },
-  {
-    name: "Nevada",
-    code: "NV",
-  },
-  {
-    name: "New Hampshire",
-    code: "NH",
-  },
-  {
-    name: "New Jersey",
-    code: "NJ",
-  },
-  {
-    name: "New Mexico",
-    code: "NM",
-  },
-  {
-    name: "New York",
-    code: "NY",
-  },
-  {
-    name: "North Carolina",
-    code: "NC",
-  },
-  {
-    name: "North Dakota",
-    code: "ND",
-  },
-  {
-    name: "Ohio",
-    code: "OH",
-  },
-  {
-    name: "Oklahoma",
-    code: "OK",
-  },
-  {
-    name: "Oregon",
-    code: "OR",
-  },
-  {
-    name: "Palau",
-    code: "PW",
-  },
-  {
-    name: "Pennsylvania",
-    code: "PA",
-  },
-  {
-    name: "Puerto Rico",
-    code: "PR",
-  },
-  {
-    name: "Rhode Island",
-    code: "RI",
-  },
-  {
-    name: "South Carolina",
-    code: "SC",
-  },
-  {
-    name: "South Dakota",
-    code: "SD",
-  },
-  {
-    name: "Tennessee",
-    code: "TN",
-  },
-  {
-    name: "Texas",
-    code: "TX",
-  },
-  {
-    name: "Utah",
-    code: "UT",
-  },
-  {
-    name: "Vermont",
-    code: "VT",
-  },
-  {
-    name: "Virgin Islands",
-    code: "VI",
-  },
-  {
-    name: "Virginia",
-    code: "VA",
-  },
-  {
-    name: "Washington",
-    code: "WA",
-  },
-  {
-    name: "West Virginia",
-    code: "WV",
-  },
-  {
-    name: "Wisconsin",
-    code: "WI",
-  },
-  {
-    name: "Wyoming",
-    code: "WY",
-  },
-];
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 
 const canadaStates = [
   {
@@ -495,6 +268,22 @@ const europeCountry = [
 ];
 
 export default function Home() {
+  const session = useSession();
+  const router = useRouter();
+  const [states, setStates] = useState([]);
+
+  useEffect(() => {
+    const fetchState = async () => {
+      try {
+        const { data } = await axios.get("/api/state");
+        setStates(data);
+      } catch (error) {}
+    };
+
+    fetchState();
+    router.refresh();
+  }, [router, session]);
+
   return (
     <div className="max-w-5xl mx-auto px-4 pb-10">
       <div className="flex  items-center justify-between mt-5 md:mb-4 mb-8 w-full mx-auto">
@@ -562,7 +351,7 @@ export default function Home() {
       </h1>
       <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-5 md:mb-0">
         <div className="flex flex-col gap-3 md:gap-4 w-full">
-          <Providercard states={usaStates} value="usa" country="USA" />
+          <Providercard states={states} value="usa" country="USA" />
           <Providercard states={canadaStates} value="canada" country="CANADA" />
           <Providercard
             value="middle_east"

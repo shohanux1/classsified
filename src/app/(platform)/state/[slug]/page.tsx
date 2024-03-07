@@ -2,35 +2,46 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const State = () => {
   const pathName = usePathname();
+  const splitCity = pathName.split("/")[2];
+  const [cities, setCities] = useState([]);
+  const [state, setState] = useState("");
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      const { data } = await axios.get(`/api/city/${splitCity}`);
+      setCities(data.cities);
+      setState(data.stateName);
+    };
+
+    fetchCities();
+  }, [pathName]);
+
+  const fixPathName = (value: string) => {
+    return value.toLowerCase().split(" ").join("-");
+  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 h-full min-h-[70vh]">
       <div className=" space-y-1 mb-8">
-        <h1 className="capitalize text-2xl">{pathName.split("/")[2]}</h1>
+        <h1 className="capitalize text-2xl">{state}</h1>
         <p className="text-slate-700">
           Click on an area/region below to see the listings
         </p>
       </div>
 
       <ul className=" list-disc marker:text-slate-700 list-inside text-primary space-y-1 columns-2 md:columns-4">
-        <li>
-          <Link href={"/"}>Alachua</Link>
-        </li>
-
-        <li>
-          <Link href={"/"}>Boca Raton</Link>
-        </li>
-
-        <li>
-          <Link href={"/"}>Fort Pierce</Link>
-        </li>
-
-        <li>
-          <Link href={"/"}>Newport Richey</Link>
-        </li>
+        {cities?.map(({ id, name }) => {
+          return (
+            <li key={id}>
+              <Link href={`/posts/${fixPathName(name)}`}>{name}</Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

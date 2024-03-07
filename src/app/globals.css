@@ -3,7 +3,18 @@
 @tailwind utilities;
  
 
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
 
+
+
+#__next {
+  background: blue;
+  height: 100%;
+}
 
 
 @layer base {
@@ -52,3 +63,5 @@
     --ring: 346.8 77.2% 49.8%;
   }
 }
+
+

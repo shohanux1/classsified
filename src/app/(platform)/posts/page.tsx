@@ -1,8 +1,15 @@
-import Image from "next/image";
 import React from "react";
-import NotFound from "../../../../public/not found.jpeg";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-const Posts = () => {
+const Posts = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return redirect("/sign-in");
+  }
+
   return (
     <div className="max-w-5xl mx-auto px-4 flex flex-col items-center justify-center py-32">
       <h1 className="text-2xl mb-2">Not found</h1>

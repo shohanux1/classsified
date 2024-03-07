@@ -1,8 +1,6 @@
-import Footer from "@/components/layout/footer";
-import Header from "@/components/layout/header";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import React from "react";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
@@ -10,10 +8,11 @@ type AuthLayoutProps = {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
-    <>
+    <div>
+      <Header />
       {children}
       <Footer />
-    </>
+    </div>
   );
 };
 

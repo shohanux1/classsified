@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  role     Role   @default(USER)
+  posts    Post[]
+}
+
+model Post {
+  id              Int        @id @default(autoincrement())
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  state           String
+  city            String
+  title           String
+  age             Int
+  location        String
+  serviceGender   String     @map("service_gender")
+  postBody        String     @map("post_body")
+  contact         String?
+  receiveCall     Boolean    @default(false) @map("receive_call")
+  pictures        String[]
+  published       Boolean    @default(false)
+  author          User       @relation(fields: [authorId], references: [id])
+  authorId        Int
+  category        Category   @relation(fields: [categoryId], references: [id])
+  categoryId      Int
+  services        Service[]
+  physical        Physical[]
+  bdsmActivity    String[]   @map("bdsm_activity")
+  visibleToGoogle Boolean    @default(false)
+  disclaimer      Boolean    @default(false)
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String
+  posts Post[]
+  slug  String
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Service {
+  id             Int      @id @unique @default(autoincrement())
+  seeClient      String
+  workingHours   String   @map("working_hours")
+  profession     String
+  paymentMethods String[] @map("payment_methods")
+  posts          Post[]
+}
+
+model Physical {
+  id        Int      @id @default(autoincrement())
+  ethnicity String[]
+  hairColor String   @map("hair_color")
+  tatoo     String
+  posts     Post[]
+}
+
+model bdsmActivity {
+  id   Int    @id @unique @default(autoincrement())
+  name String
+}
+
+model Country {
+  id     Int     @id @unique @default(autoincrement())
+  name   String
+  states State[]
+  slug   String
+}
+
+model State {
+  id        Int     @id @unique @default(autoincrement())
+  name      String
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId Int
+  cities    City[]
+  slug      String
+}
+
+model City {
+  id      Int    @id @unique @default(autoincrement())
+  name    String
+  state   State  @relation(fields: [stateId], references: [id])
+  stateId Int
+  slug    String
+}

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "react-hot-toast";
+import Provider from "@/components/provider";
 
 const montserrat = Poppins({
   subsets: ["latin"],
@@ -22,7 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(montserrat.className)}>{children}</body>
+      <body className={cn(montserrat.className)}>
+        <Provider>
+          <div className="h-full">{children}</div>
+          <Toaster position="top-center" reverseOrder={false} />
+        </Provider>
+      </body>
     </html>
   );
 }
