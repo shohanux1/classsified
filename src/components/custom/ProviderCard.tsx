@@ -30,8 +30,8 @@ const Providercard = ({ country, value, states }: ProvidercardProps) => {
         <AccordionContent>
           {states ? (
             <ul className="marker:text-slate-800 space-y-1.5 columns-2  list-disc list-inside text-primary p-5">
-              {states?.map(({ name, id }) => (
-                <li key={id} className="text-base cursor-pointer transition ">
+              {states?.map(({ name }, i) => (
+                <li key={i} className="text-base cursor-pointer transition ">
                   <Link href={`state/${fixPathName(name)}`}>{name}</Link>
                 </li>
               ))}
