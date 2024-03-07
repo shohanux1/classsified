@@ -1,6 +1,6 @@
 import React from "react";
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
+import Footer from "@/components/Layout/Footer";
+import Header from "@/components/Layout/Header";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
