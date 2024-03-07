@@ -1,7 +1,7 @@
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import Filter from "@/components/layout/Filter";
 import React from "react";
+import Header from "../../components/layout/Header";
+import Footer from "../../components/layout/Footer";
+import Filter from "../../components/layout/Filter";
 
 //custom component
 
