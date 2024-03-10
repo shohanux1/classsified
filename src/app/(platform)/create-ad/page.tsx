@@ -230,8 +230,9 @@ export default function Post() {
       setloading(false);
       toast.success("Your post has been successfully created");
       router.push("/my-account");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error.message);
+      setloading(false);
     }
   }
 
