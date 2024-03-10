@@ -65,14 +65,8 @@ export async function POST(req: any) {
       },
     });
 
-    return NextResponse.json({
-      status: 201,
-      message: "Post has been successfully created.",
-    });
+    return NextResponse.json({ status: 201 });
   } catch (error) {
-    return NextResponse.json({
-      status: 500,
-      message: "Internal Server Error",
-    });
+    return NextResponse.json(error, { status: 500 });
   }
 }
