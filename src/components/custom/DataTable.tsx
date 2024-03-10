@@ -37,7 +37,7 @@ const DataTable = ({ data }: DataTableProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map(({ title, id, age, city }) => {
+        {data?.map(({ title, id, age, city }) => {
           return (
             <TableRow key={id}>
               <TableCell className="text-slate-700 py-4">{id}</TableCell>
