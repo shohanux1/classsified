@@ -65,22 +65,14 @@ export async function POST(req: any) {
       },
     });
 
-    return NextResponse.json(post, { status: 201 });
-  } catch (error) {
-    return NextResponse.json(error);
-  }
-}
-
-export async function GET(req: any) {
-  try {
-    const posts = await db.post.findMany({
-      include: {
-        city: true,
-      },
+    return NextResponse.json({
+      status: 201,
+      message: "Post has been successfully created.",
     });
-
-    return NextResponse.json(posts);
   } catch (error) {
-    return NextResponse.json(error, { status: 500 });
+    return NextResponse.json({
+      status: 500,
+      message: "Internal Server Error",
+    });
   }
 }
