@@ -14,11 +14,7 @@ export async function GET(req: any, { params }: { params: { city: string } }) {
       },
     });
 
-    return NextResponse.json({
-      status: 200,
-      message: "Posts retrieved successfully",
-      posts,
-    });
+    return NextResponse.json(posts, { status: 200 });
   } catch (error) {
     return NextResponse.json({
       status: 500,

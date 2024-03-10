@@ -65,12 +65,7 @@ export async function POST(req: any) {
       },
     });
 
-    console.log("body", body);
-    return NextResponse.json({
-      status: 201,
-      message: "Post created successfully.",
-      data: post,
-    });
+    return NextResponse.json(post, { status: 201 });
   } catch (error) {
     return NextResponse.json(error);
   }

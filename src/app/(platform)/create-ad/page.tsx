@@ -200,7 +200,7 @@ export default function Post() {
         disclaimer,
       } = data;
 
-      const createAd = await axios.post(
+      await axios.post(
         "/api/post",
         {
           countryId: 1,
@@ -228,7 +228,7 @@ export default function Post() {
         { headers: { "Content-Type": "application/json" } }
       );
       setloading(false);
-      toast.success(createAd.data.message);
+      toast.success("Your post has been successfully created");
       router.push("/my-account");
     } catch (error) {
       console.log(error);
