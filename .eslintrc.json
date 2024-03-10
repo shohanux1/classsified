@@ -7,7 +7,7 @@
     }
   },
   "rules": {
-    "semi": 2
+    "eol-last": "off"
   },
   "extends": "next/core-web-vitals"
 }
