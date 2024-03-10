@@ -96,29 +96,21 @@ model City {
 model Payment {
   id   Int    @id @unique @default(autoincrement())
   name String
-
-  @@map("payment_options")
 }
 
 model HairColor {
   id   Int    @id @unique @default(autoincrement())
   name String
-
-  @@map("hair_color_options")
 }
 
 model Tatoo {
   id   Int    @id @unique @default(autoincrement())
   name String
-
-  @@map("tatoo_options")
 }
 
 model Ethnicity {
   id   Int    @id @unique @default(autoincrement())
   name String
-
-  @@map("ethnicity_options")
 }
 
 model BdsmActivity {
