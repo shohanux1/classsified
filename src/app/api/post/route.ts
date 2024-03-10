@@ -2,16 +2,17 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { type NextRequest } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest): Promise<void | Response> {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return null;
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const body = await request.json();
+    const body = await req.json();
     const {
       countryId,
       stateId,
@@ -50,10 +51,10 @@ export async function POST(request: Request) {
         postBody,
         contact,
         receiveCall,
-        pictures: [""],
+        pictures,
         published,
-        authorId: Number(session?.user.id),
-        // authorId: 1,
+        authorId: 1,
+        // authorId: Number(session?.user.id),
         ethnicity,
         hairColor,
         tatoo,
@@ -66,12 +67,11 @@ export async function POST(request: Request) {
       },
     });
 
-    return new Response("Your post has been successfully created.", {
-      status: 201,
-    });
-  } catch (error: any) {
-    return new Response(`Error: ${error.message}`, {
-      status: 400,
-    });
+    return NextResponse.json(post, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
