@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -21,13 +21,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import {
-  ethnicityOptions,
-  fetishOptions,
-  hairColorOptions,
-  paymentMethods,
-  usaStatesAndCity,
-} from "@/data/usState";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -41,7 +34,37 @@ import CheckboxWithLabel from "@/components/custom/MultipleCheckbox";
 import SingleCheckbox from "@/components/custom/SingleCheckbox";
 import PrivacyCheckbox from "@/components/custom/PrivacyCheckbox";
 import MultipleCheckbox from "@/components/custom/MultipleCheckbox";
-import Link from "next/link";
+
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+interface City {
+  id: number;
+  name: string;
+  slug: string;
+  stateId: number;
+}
+
+interface StateProps {
+  id: number;
+  name: string;
+  slug: string;
+  cities?: City[] | undefined;
+}
+
+interface Option {
+  id: number;
+  name: string;
+}
+
+interface OptionProps {
+  bdsm: Option[];
+  payment: Option[];
+  haircolor: Option[];
+  tatoo: any[];
+  ethnicity: Option[];
+  categories: Option[];
+}
 
 const formData: {
   placeholder: string;
@@ -72,19 +95,9 @@ const formData: {
   },
 ];
 
-const category = [
-  "TS escort",
-  "Female escort",
-  "Male for male escort",
-  "DOM / Fetish provider",
-  "Male for female escort",
-  "Massage or massage studio",
-  "Web / Snap entertainer",
-];
-
 const FormSchema = z.object({
-  state: z.string({
-    required_error: "Please select a state",
+  state: z.string().min(1, {
+    message: "Please select a state",
   }),
   city: z.string({
     required_error: "Please select a city",
@@ -107,7 +120,7 @@ const FormSchema = z.object({
   location: z.string().min(1, {
     message: "This field is required",
   }),
-  serviceType: z.array(z.string()).optional(),
+  serviceType: z.array(z.number()).optional(),
 
   postBody: z
     .string({
@@ -123,26 +136,30 @@ const FormSchema = z.object({
     required_error: "Please type your valid number",
   }),
   receiveCall: z.boolean().default(false),
-  pictures: z.string().optional(),
-  seeClient: z.array(z.string()).optional(),
+  pictures: z.array(z.any()),
+  seeClient: z.array(z.number()).optional(),
   workingHours: z.string().optional(),
-  paymentMethods: z.array(z.string()).optional(),
-  ethnicity: z.array(z.string()).optional(),
-  hairColor: z.array(z.string()).optional(),
-  tatoo: z.string(),
-  bdsmActivity: z.array(z.string()).optional(),
+  paymentMethods: z.array(z.number()).optional(),
+  ethnicity: z.array(z.number()).optional(),
+  hairColor: z.array(z.number()).optional(),
+  tatoo: z.number().optional(),
+  bdsmActivity: z.array(z.number()).optional(),
   visibleToGoogle: z.boolean().default(false),
   disclaimer: z.boolean().default(false),
 });
 
-type Categories = Array<{
-  id: number;
-  name: string;
-}>;
-
 export default function Post() {
-  const [cities, setCities] = useState<string[]>([]);
-  const [categories, setCategories] = useState<Categories>([]);
+  const session = useSession();
+  const [option, setOption] = useState<OptionProps>();
+  const [states, setStates] = useState<StateProps[]>();
+  const [cities, setCities] = useState<StateProps[]>();
+  const [loading, setloading] = useState(false);
+
+  if (session.status === "unauthenticated") {
+    window.location.assign("/sign-in");
+  }
+
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -154,44 +171,113 @@ export default function Post() {
       serviceType: [],
       hairColor: [],
       seeClient: [],
-      pictures: "",
     },
   });
 
-  if (
-    form.getValues().state !== "" &&
-    form.getValues().city !== "" &&
-    form.getValues().category !== ""
-  ) {
-    console.log("first");
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setloading(true);
+    try {
+      const {
+        state,
+        city,
+        title,
+        age,
+        location,
+        category,
+        serviceType,
+        postBody,
+        contact,
+        receiveCall,
+        pictures,
+        ethnicity,
+        hairColor,
+        tatoo,
+        seeClient,
+        workingHours,
+        paymentMethods,
+        bdsmActivity,
+        visibleToGoogle,
+        disclaimer,
+      } = data;
+
+      const createAd = await axios.post(
+        "/api/post",
+        {
+          countryId: 1,
+          stateId: Number(state),
+          cityId: Number(city),
+          title,
+          age: Number(city),
+          location,
+          categoryId: Number(category),
+          serviceGender: serviceType,
+          postBody,
+          contact,
+          receiveCall,
+          pictures,
+          ethnicity,
+          hairColor,
+          tatoo,
+          seeClient,
+          workingHours,
+          paymentMethods,
+          bdsmActivity,
+          visibleToGoogle,
+          disclaimer,
+        },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      setloading(false);
+      toast.success(createAd.data.message);
+      router.push("/my-account");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-  }
+  const filterCities = (value: any) => {
+    const filteredCity = states?.filter((state: any) => {
+      return state.id === Number(value);
+    });
 
-  const filterCities = (state: any) => {
-    const citiesInNewYork: string[] = usaStatesAndCity[state];
-    setCities(citiesInNewYork);
+    if (filteredCity && filteredCity.length > 0) {
+      setCities(filteredCity[0].cities);
+    }
   };
 
   const checkState = form.getValues("state") === "" ? true : false;
 
+  const getStates = async () => {
+    try {
+      const { data } = await axios.get("/api/state");
+      setStates(data);
+    } catch (error) {
+      toast.error(`${error}`);
+    }
+  };
+
   useEffect(() => {
-    const getCategory = async () => {
+    const getOptions = async () => {
       try {
-        const response = await axios.get("/api/category");
-        setCategories(response.data);
+        const { data } = await axios.get("/api/options");
+        setOption(data);
       } catch (error) {
         toast.error(`${error}`);
       }
     };
 
-    getCategory();
+    getStates();
+    getOptions();
   }, []);
 
+  function handleFileChange(event: any, field: any) {
+    const files = event.target.files;
+    const filesArray = Array.from(files);
+    field.onChange(filesArray);
+  }
+
   return (
-    <div className="max-w-5xl px-4 mx-auto h-full py-10">
+    <div className="max-w-5xl px-4 mx-auto h-full py-5 md:py-10">
       <h1 className="text-2xl md:text-3xl text-slate-700 mb-3">
         Create your post
       </h1>
@@ -201,121 +287,120 @@ export default function Post() {
       </p>
       <Form {...form}>
         <form className="space-y-2" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid md:grid-cols-2">
-            <div className="w-full grid grid-cols-2 gap-4 mb-10">
-              <p className="col-span-2 text-slate-700">
-                1.Where would you like to post?
-              </p>
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem className="col-span-1 ml-4">
-                    <FormLabel className="font-normal">State</FormLabel>
-                    <Select
-                      onValueChange={(value) => {
-                        filterCities(value);
-                        field.onChange(value);
-                      }}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Please select" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {Object.keys(usaStatesAndCity).map((state) => {
+          <div className="w-full max-w-lg grid grid-cols-2 gap-4 mb-10">
+            <p className="col-span-2 text-slate-700">
+              1.Where would you like to post?
+            </p>
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem className="col-span-1 ml-4">
+                  <FormLabel className="font-normal">State</FormLabel>
+                  <Select
+                    onValueChange={(value) => {
+                      filterCities(value);
+                      field.onChange(value);
+                    }}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Please select" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {states?.map(
+                        ({
+                          id,
+                          name,
+                        }: {
+                          id: number;
+                          name: string;
+                          slug: string;
+                        }) => {
                           return (
-                            <SelectItem key={state} value={state}>
-                              {state}
+                            <SelectItem key={id} value={`${id}`}>
+                              {name}
                             </SelectItem>
                           );
-                        })}
-                      </SelectContent>
-                    </Select>
+                        }
+                      )}
+                    </SelectContent>
+                  </Select>
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem className="col-span-1">
-                    <FormLabel className="font-normal">City</FormLabel>
-                    <Select
-                      disabled={checkState}
-                      onValueChange={(value) => {
-                        field.onChange(value);
-                      }}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Please select" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {cities.map((city: string) => (
-                          <SelectItem key={city} value={city}>
-                            {city}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem className="col-span-1">
+                  <FormLabel className="font-normal">City</FormLabel>
+                  <Select
+                    disabled={checkState}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Please select" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {cities?.map(({ id, name, slug }) => (
+                        <SelectItem key={id} value={`${id}`}>
+                          {name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <p className="text-[10px] ml-4 col-span-2 mb-4">
-                If you want your city or area added to the list, please write to
-                <span className="text-primary ml-1">
-                  support@skipthegames.com
-                </span>
-              </p>
-              <p className="col-span-2 text-slate-700">
-                2.In what category would you like to post?
-              </p>
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem className="col-span-2 ml-4">
-                    <FormLabel className="font-normal">Category</FormLabel>
-                    <Select
-                      onValueChange={(value) => {
-                        field.onChange(value);
-                      }}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Looking for a" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {categories.map(({ id, name }) => (
-                          <SelectItem key={id} value={`${id}`}>
-                            {name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <p className="text-[10px] ml-4 col-span-2 mb-4">
+              If you want your city or area added to the list, please write to
+              <span className="text-primary ml-1">
+                support@skipthegames.com
+              </span>
+            </p>
+            <p className="col-span-2 text-slate-700">
+              2.In what category would you like to post?
+            </p>
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem className="col-span-2 ml-4">
+                  <FormLabel className="font-normal">Category</FormLabel>
+                  <Select
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                    }}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Looking for a" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {option?.categories.map(({ id, name }) => (
+                        <SelectItem key={id} value={`${id}`}>
+                          {name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex flex-col items-center ">
-              <h1 className="text-2xl mb-2 ">Already Registered</h1>
-              <Button className="w-full max-w-[15rem]">
-                <Link href={"/sign-in"}>Login To Your Account</Link>
-              </Button>
-            </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <AdRules />
@@ -363,7 +448,11 @@ export default function Post() {
                       <FormControl>
                         <MultipleCheckbox
                           field={field}
-                          data={["man", "woman", "other"]}
+                          data={[
+                            { id: 1, name: "man" },
+                            { id: 2, name: "woman" },
+                            { id: 3, name: "other" },
+                          ]}
                           title="What services do you offer?"
                         />
                       </FormControl>
@@ -436,7 +525,16 @@ export default function Post() {
                       control={form.control}
                       name="pictures"
                       render={({ field }) => (
-                        <Input id="pictures" multiple type="file" {...field} />
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              multiple
+                              type="file"
+                              onChange={(e) => handleFileChange(e, field)}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
                       )}
                     />
                   </div>
@@ -458,7 +556,11 @@ export default function Post() {
                           <FormControl>
                             <MultipleCheckbox
                               field={field}
-                              data={["incall", "outcall", "both"]}
+                              data={[
+                                { id: 1, name: "incall" },
+                                { id: 2, name: "outcall" },
+                                { id: 3, name: "both" },
+                              ]}
                               title="Where can you see your clients?"
                               formMessage={<FormMessage />}
                             />
@@ -486,7 +588,7 @@ export default function Post() {
                       name="paymentMethods"
                       render={({ field }) => (
                         <CheckboxWithLabel
-                          data={paymentMethods}
+                          data={option?.payment}
                           title="What payment method do you accept?"
                           field={field}
                         />
@@ -500,7 +602,7 @@ export default function Post() {
                       name="ethnicity"
                       render={({ field }) => (
                         <CheckboxWithLabel
-                          data={ethnicityOptions}
+                          data={option?.ethnicity}
                           title="Your race / ethnicity"
                           field={field}
                         />
@@ -512,7 +614,7 @@ export default function Post() {
                       name="hairColor"
                       render={({ field }) => (
                         <MultipleCheckbox
-                          data={hairColorOptions}
+                          data={option?.haircolor}
                           title="Hair color"
                           field={field}
                         />
@@ -525,7 +627,7 @@ export default function Post() {
                       render={({ field }) => (
                         <SingleCheckbox
                           field={field}
-                          data={["none", "discreet", "very visible or many"]}
+                          data={option?.tatoo}
                           title="Tatoo"
                         />
                       )}
@@ -539,7 +641,7 @@ export default function Post() {
                   name="bdsmActivity"
                   render={({ field }) => (
                     <CheckboxWithLabel
-                      data={fetishOptions}
+                      data={option?.bdsm}
                       title="BDSM activities"
                       field={field}
                     />
@@ -583,8 +685,8 @@ export default function Post() {
             </Accordion>
           </div>
 
-          <Button size={"lg"} type="submit">
-            Submit
+          <Button disabled={loading} size={"lg"} type="submit">
+            {loading ? "Please wait..." : "Create Template"}
           </Button>
         </form>
       </Form>

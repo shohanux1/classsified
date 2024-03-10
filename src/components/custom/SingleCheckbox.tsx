@@ -4,9 +4,14 @@ import { cn } from "@/lib/utils";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 
+interface DataItem {
+  id: number;
+  name: string;
+}
+
 type SingleCheckboxProps = {
   title: string;
-  data?: string[];
+  data?: DataItem[];
   formMessage?: React.ReactNode;
   field?: any;
 };
@@ -33,21 +38,21 @@ const SingleCheckbox = ({
           data?.length === 3 ? "grid-cols-3" : "grid-cols-2"
         )}
       >
-        {data?.map((item, i) => (
-          <div key={i} className="flex items-center space-x-2">
+        {data?.map(({ name, id }: { name: string; id: number }) => (
+          <div key={id} className="flex items-center space-x-2">
             <Checkbox
-              value={item}
-              checked={field.value === item}
+              value={id}
+              checked={field.value === id}
               onCheckedChange={(checked) => {
-                return checked ? field.onChange(item) : field.onChange("");
+                return checked ? field.onChange(id) : field.onChange("");
               }}
-              id={item}
+              id={name}
             />
             <label
-              htmlFor={item}
+              htmlFor={name}
               className="text-sm text-slate-700 leading-none peer-disabled:cursor-not-allowed capitalize peer-disabled:opacity-70"
             >
-              {item}
+              {name}
             </label>
           </div>
         ))}

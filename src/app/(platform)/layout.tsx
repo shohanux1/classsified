@@ -11,10 +11,10 @@ type LayoutProps = {
 
 const Layout = async ({ children }: LayoutProps) => {
   return (
-    <div className="bg-white">
+    <div className="flex flex-col bg-white">
       <Header />
       <Filter />
-      {children}
+      <div className="flex-1">{children}</div>
       <Footer />
     </div>
   );

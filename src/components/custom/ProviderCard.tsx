@@ -13,7 +13,7 @@ import {
 type ProvidercardProps = {
   country: string;
   value: string;
-  states?: Array<{ name: string; id?: string }>;
+  states?: Array<{ name: string; id?: number }>;
 };
 
 const Providercard = ({ country, value, states }: ProvidercardProps) => {
@@ -22,28 +22,26 @@ const Providercard = ({ country, value, states }: ProvidercardProps) => {
   };
 
   return (
-    <Accordion type="single" collapsible>
-      <AccordionItem defaultValue="usa" className="border-none" value={value}>
-        <AccordionTrigger className="flex items-center justify-between rounded-lg md:font-medium bg-slate-200 hover:no-underline px-5  py-3">
-          Providers in {country}
-        </AccordionTrigger>
-        <AccordionContent>
-          {states ? (
-            <ul className="marker:text-slate-800 space-y-1.5 columns-2  list-disc list-inside text-primary p-5">
-              {states?.map(({ name }, i) => (
-                <li key={i} className="text-base cursor-pointer transition ">
-                  <Link href={`state/${fixPathName(name)}`}>{name}</Link>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="flex items-center justify-center py-4 text-lg text-slate-600">
-              No Data found
-            </div>
-          )}
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+    <AccordionItem defaultValue="usa" className="border-none" value={value}>
+      <AccordionTrigger className="flex items-center justify-between rounded-lg md:font-medium bg-slate-200 hover:no-underline px-5  py-3">
+        Providers in {country}
+      </AccordionTrigger>
+      <AccordionContent>
+        {states ? (
+          <ul className="marker:text-slate-800 space-y-1.5 columns-2  list-disc list-inside text-primary p-5">
+            {states?.map(({ name }, i) => (
+              <li key={i} className="text-base cursor-pointer transition ">
+                <Link href={`state/${fixPathName(name)}`}>{name}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="flex items-center justify-center py-4 text-lg text-slate-600">
+            No Data found
+          </div>
+        )}
+      </AccordionContent>
+    </AccordionItem>
   );
 };
 

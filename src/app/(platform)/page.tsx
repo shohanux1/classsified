@@ -1,288 +1,27 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 
 import Providercard from "@/components/custom/ProviderCard";
 import ProviderPhotos from "@/components/custom/ProviderPhotos";
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import HeroImage from "../../../public/condom.jpeg";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import axios from "axios";
+import { Accordion } from "@/components/ui/accordion";
+import { db } from "@/lib/db";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const canadaStates = [
-  {
-    name: "Alberta",
-    code: "AB",
-  },
-  {
-    name: "British Columbia",
-    code: "BC",
-  },
-  {
-    name: "Manitoba",
-    code: "MB",
-  },
-  {
-    name: "New Brunswick",
-    code: "NB",
-  },
-  {
-    name: "Newfoundland and Labrador",
-    code: "NL",
-  },
-  {
-    name: "Northwest Territories",
-    code: "NT",
-  },
-  {
-    name: "Nova Scotia",
-    code: "NS",
-  },
-  {
-    name: "Nunavut",
-    code: "NU",
-  },
-  {
-    name: "Ontario",
-    code: "ON",
-  },
-  {
-    name: "Prince Edward Island",
-    code: "PE",
-  },
-  {
-    name: "Quebec",
-    code: "QC",
-  },
-  {
-    name: "Saskatchewan",
-    code: "SK",
-  },
-  {
-    name: "Yukon Territory",
-    code: "YT",
-  },
-];
+const getCountry = async () => {
+  const res = await db.country.findMany({
+    include: {
+      states: true,
+    },
+  });
 
-const europeCountry = [
-  {
-    name: "Andorra",
-    code: "AD",
-  },
-  {
-    name: "Albania",
-    code: "AL",
-  },
-  {
-    name: "Austria",
-    code: "AT",
-  },
-  {
-    name: "Åland Islands",
-    code: "AX",
-  },
-  {
-    name: "Bosnia and Herzegovina",
-    code: "BA",
-  },
-  {
-    name: "Belgium",
-    code: "BE",
-  },
-  {
-    name: "Bulgaria",
-    code: "BG",
-  },
-  {
-    name: "Belarus",
-    code: "BY",
-  },
-  {
-    name: "Switzerland",
-    code: "CH",
-  },
-  {
-    name: "Cyprus",
-    code: "CY",
-  },
-  {
-    name: "Czech Republic",
-    code: "CZ",
-  },
-  {
-    name: "Germany",
-    code: "DE",
-  },
-  {
-    name: "Denmark",
-    code: "DK",
-  },
-  {
-    name: "Estonia",
-    code: "EE",
-  },
-  {
-    name: "Spain",
-    code: "ES",
-  },
-  {
-    name: "Finland",
-    code: "FI",
-  },
-  {
-    name: "Faroe Islands",
-    code: "FO",
-  },
-  {
-    name: "France",
-    code: "FR",
-  },
-  {
-    name: "United Kingdom",
-    code: "GB",
-  },
-  {
-    name: "Guernsey",
-    code: "GG",
-  },
-  {
-    name: "Greece",
-    code: "GR",
-  },
-  {
-    name: "Croatia",
-    code: "HR",
-  },
-  {
-    name: "Hungary",
-    code: "HU",
-  },
-  {
-    name: "Ireland",
-    code: "IE",
-  },
-  {
-    name: "Isle of Man",
-    code: "IM",
-  },
-  {
-    name: "Iceland",
-    code: "IC",
-  },
-  {
-    name: "Italy",
-    code: "IT",
-  },
-  {
-    name: "Jersey",
-    code: "JE",
-  },
-  {
-    name: "Liechtenstein",
-    code: "LI",
-  },
-  {
-    name: "Lithuania",
-    code: "LT",
-  },
-  {
-    name: "Luxembourg",
-    code: "LU",
-  },
-  {
-    name: "Latvia",
-    code: "LV",
-  },
-  {
-    name: "Monaco",
-    code: "MC",
-  },
-  {
-    name: "Moldova, Republic of",
-    code: "MD",
-  },
-  {
-    name: "Macedonia, The Former Yugoslav Republic of",
-    code: "MK",
-  },
-  {
-    name: "Malta",
-    code: "MT",
-  },
-  {
-    name: "Netherlands",
-    code: "NL",
-  },
-  {
-    name: "Norway",
-    code: "NO",
-  },
-  {
-    name: "Poland",
-    code: "PL",
-  },
-  {
-    name: "Portugal",
-    code: "PT",
-  },
-  {
-    name: "Romania",
-    code: "RO",
-  },
-  {
-    name: "Russian Federation",
-    code: "RU",
-  },
-  {
-    name: "Sweden",
-    code: "SE",
-  },
-  {
-    name: "Slovenia",
-    code: "SI",
-  },
-  {
-    name: "Svalbard and Jan Mayen",
-    code: "SJ",
-  },
-  {
-    name: "Slovakia",
-    code: "SK",
-  },
-  {
-    name: "San Marino",
-    code: "SM",
-  },
-  {
-    name: "Ukraine",
-    code: "UA",
-  },
-  {
-    name: "Holy See (Vatican City State)",
-    code: "VA",
-  },
-];
+  return res;
+};
 
-export default function Home() {
-  const session = useSession();
-  const router = useRouter();
-  const [states, setStates] = useState([]);
+export default async function Home() {
+  const countries = await getCountry();
 
-  useEffect(() => {
-    const fetchState = async () => {
-      try {
-        const { data } = await axios.get("/api/state");
-        setStates(data);
-      } catch (error) {}
-    };
-
-    fetchState();
-    router.refresh();
-  }, [router, session]);
+  console.log(countries);
 
   return (
     <div className="max-w-5xl mx-auto px-4 pb-10">
@@ -349,29 +88,21 @@ export default function Home() {
       <h1 className=" text-slate-800 text-xl md:text-3xl mb-5">
         Find and meet service providers anywhere
       </h1>
-      <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-5 md:mb-0">
-        <div className="flex flex-col gap-3 md:gap-4 w-full">
-          <Providercard states={states} value="usa" country="USA" />
-          <Providercard states={canadaStates} value="canada" country="CANADA" />
-          <Providercard
-            value="middle_east"
-            country="the Middle East & Africa"
-          />
-        </div>
 
-        <div className="flex flex-col gap-3 md:gap-4 w-full">
-          <Providercard
-            states={europeCountry}
-            value="europe"
-            country="Europe"
-          />
-          <Providercard
-            value="americans"
-            country="the Americans & Caribbeean"
-          />
-          <Providercard value="asia" country="Asia & Australia" />
+      <Accordion type="single" collapsible className="w-full">
+        <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-5 md:mb-0">
+          {countries.map(({ name, id, states, slug }) => {
+            return (
+              <Providercard
+                key={id}
+                states={states}
+                value={slug}
+                country={name}
+              />
+            );
+          })}
         </div>
-      </div>
+      </Accordion>
 
       <div className="grid md:grid-cols-2 gap-3 lg:my-4">
         <ProviderPhotos name="Popular provider photos">

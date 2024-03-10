@@ -30,16 +30,11 @@ import toast from "react-hot-toast";
 const formSchema = z
   .object({
     email: z.string().min(2).max(50),
-    confirmEmail: z.string().min(2).max(50),
     password: z.string().min(1, { message: "Password is required" }).max(50),
     confirmPassword: z
       .string()
       .min(5, { message: "Password is required" })
       .max(50),
-  })
-  .refine((data) => data.email === data.confirmEmail, {
-    path: ["email"],
-    message: "Email does not match",
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["password"],
@@ -55,7 +50,6 @@ const SignUp = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      confirmEmail: "",
       password: "",
       confirmPassword: "",
     },
@@ -93,7 +87,7 @@ const SignUp = () => {
   }, [session, router]);
 
   return (
-    <div className="flex items-center justify-center min-h-[75vh] px-4 py-8">
+    <div className="flex items-center justify-center px-4 py-8 md:py-14">
       <Card className=" w-full max-w-lg">
         <CardHeader>
           <CardTitle className="text-2xl font-medium">
@@ -114,20 +108,6 @@ const SignUp = () => {
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter your email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="confirmEmail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Confirm your email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -170,21 +150,26 @@ const SignUp = () => {
                 )}
               />
 
+              <p className="text-sm text-slate-700 py-2">
+                Having trouble in sign in?
+                <Link className="text-primary ml-2" href={"/"}>
+                  Click here
+                </Link>
+              </p>
+
               <Button disabled={loading} type="submit" className="w-full">
-                {loading
-                  ? "Please wait ..."
-                  : "Verify my email and post the ad"}
+                {loading ? "Please wait ..." : "Create account"}
               </Button>
             </form>
           </FormProvider>
         </CardContent>
         <CardFooter className="flex flex-col items-center text-slate-700">
-          <p>
-            Password not working?
-            <Link className="text-primary underline" href={"/"}>
-              Click here
+          <h1 className="text-sm text-slate-600">
+            Already have an account?
+            <Link className="text-primary ml-2" href={"/sign-up"}>
+              Login now
             </Link>
-          </p>
+          </h1>
         </CardFooter>
       </Card>
     </div>

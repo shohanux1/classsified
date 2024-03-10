@@ -54,7 +54,7 @@ const Signin = () => {
     setLoading((prev) => !prev);
 
     if (response?.ok) {
-      router.refresh();
+      window.location.assign("/");
       toast.success("Successfully log in to your account");
     } else {
       toast.error("Invalid email or password");
@@ -69,7 +69,7 @@ const Signin = () => {
   }, [session, router]);
 
   return (
-    <div className="flex items-center justify-center h-[75vh] px-4">
+    <div className="flex items-center justify-center px-4 h-full">
       <Card className=" w-full max-w-lg">
         <CardHeader>
           <CardTitle className="text-2xl font-medium">
@@ -114,19 +114,26 @@ const Signin = () => {
                 )}
               />
 
+              <p className="text-sm text-slate-700 py-2">
+                Having trouble in sign in?
+                <Link className="text-primary ml-2" href={"/"}>
+                  Click here
+                </Link>
+              </p>
+
               <Button disabled={loading} type="submit" className="w-full">
-                {loading ? "Please wait ..." : "Log in"}
+                {loading ? "Please wait ..." : "Sign in"}
               </Button>
             </form>
           </FormProvider>
         </CardContent>
         <CardFooter className="flex flex-col items-center text-slate-700">
-          <p>
-            Password not working?
-            <Link className="text-primary underline" href={"/"}>
-              Click here
+          <h1 className="text-sm text-slate-600">
+            Don't have an account?
+            <Link className="text-primary ml-2" href={"/sign-up"}>
+              Request Now
             </Link>
-          </p>
+          </h1>
         </CardFooter>
       </Card>
     </div>

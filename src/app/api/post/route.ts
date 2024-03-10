@@ -1,73 +1,76 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-
-import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 
-const postSchema = z.object({
-  title: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
-  authorId: z.number({
-    required_error: "Author cannot be empty. Please provide your age.",
-  }),
-  published: z.boolean().default(false),
-  categories: z.any(),
-});
-
 export async function POST(req: any) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return null;
+  }
+
   try {
     const body = await req.json();
     const {
-      state,
-      city,
+      countryId,
+      stateId,
+      cityId,
       title,
       age,
       location,
+      categoryId,
       serviceGender,
       postBody,
       contact,
       receiveCall,
       pictures,
-      services,
-      physical,
       published,
-      authorId,
+      ethnicity,
+      hairColor,
+      tatoo,
+      seeClient,
+      workingHours,
+      paymentMethods,
       bdsmActivity,
       visibleToGoogle,
       disclaimer,
-      categoryId,
-    } = body;
+    } = await body;
 
     const post = await db.post.create({
       data: {
-        state,
-        city,
+        countryId: 1,
+        stateId,
+        cityId,
         title,
         age,
         location,
+        categoryId,
         serviceGender,
         postBody,
         contact,
         receiveCall,
-        pictures,
-        services: {
-          create: services,
-        },
-        physical: {
-          create: physical,
-        },
+        pictures: [""],
         published,
-        authorId,
-        categoryId,
+        authorId: Number(session?.user.id),
+        ethnicity,
+        hairColor,
+        tatoo,
+        seeClient,
+        workingHours,
+        paymentMethods,
         bdsmActivity,
         visibleToGoogle,
         disclaimer,
       },
     });
 
-    return NextResponse.json(post);
+    console.log("body", body);
+    return NextResponse.json({
+      status: 201,
+      message: "Post created successfully.",
+      data: post,
+    });
   } catch (error) {
     return NextResponse.json(error);
   }
@@ -77,7 +80,7 @@ export async function GET(req: any) {
   try {
     const posts = await db.post.findMany({
       include: {
-        category: true,
+        city: true,
       },
     });
 

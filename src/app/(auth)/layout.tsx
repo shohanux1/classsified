@@ -1,6 +1,8 @@
 import React from "react";
 import Footer from "@/components/Layout/Footer";
 import Header from "@/components/Layout/Header";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
@@ -8,9 +10,9 @@ type AuthLayoutProps = {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <Header />
-      {children}
+      <div className="flex-1">{children}</div>
       <Footer />
     </div>
   );

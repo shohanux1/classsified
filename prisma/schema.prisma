@@ -2,15 +2,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
-
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  url      = env("DATABASE_URL")
 }
+
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
+// }
 
 model User {
   id       Int    @id @default(autoincrement())
@@ -21,29 +21,37 @@ model User {
 }
 
 model Post {
-  id              Int        @id @default(autoincrement())
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  state           String
-  city            String
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  countryId       Int
+  country         Country  @relation(fields: [countryId], references: [id])
+  state           State    @relation(fields: [stateId], references: [id])
+  stateId         Int
+  city            City     @relation(fields: [cityId], references: [id])
+  cityId          Int
   title           String
   age             Int
   location        String
-  serviceGender   String     @map("service_gender")
-  postBody        String     @map("post_body")
-  contact         String?
-  receiveCall     Boolean    @default(false) @map("receive_call")
-  pictures        String[]
-  published       Boolean    @default(false)
-  author          User       @relation(fields: [authorId], references: [id])
-  authorId        Int
-  category        Category   @relation(fields: [categoryId], references: [id])
   categoryId      Int
-  services        Service[]
-  physical        Physical[]
-  bdsmActivity    String[]   @map("bdsm_activity")
-  visibleToGoogle Boolean    @default(false)
-  disclaimer      Boolean    @default(false)
+  serviceGender   Int[]    @map("service_gender")
+  postBody        String   @map("post_body")
+  contact         String?
+  receiveCall     Boolean? @default(false) @map("receive_call")
+  pictures        String[]
+  published       Boolean  @default(false)
+  author          User     @relation(fields: [authorId], references: [id])
+  authorId        Int
+  category        Category @relation(fields: [categoryId], references: [id])
+  ethnicity       Int[]
+  hairColor       Int[]    @map("hair_color")
+  tatoo           Int?
+  seeClient       Int[]
+  workingHours    String?  @map("working_hours")
+  paymentMethods  Int[]    @map("payment_methods")
+  bdsmActivity    Int[]    @map("bdsm_activity")
+  visibleToGoogle Boolean  @default(false)
+  disclaimer      Boolean  @default(false)
 }
 
 model Category {
@@ -58,33 +66,12 @@ enum Role {
   ADMIN
 }
 
-model Service {
-  id             Int      @id @unique @default(autoincrement())
-  seeClient      String
-  workingHours   String   @map("working_hours")
-  profession     String
-  paymentMethods String[] @map("payment_methods")
-  posts          Post[]
-}
-
-model Physical {
-  id        Int      @id @default(autoincrement())
-  ethnicity String[]
-  hairColor String   @map("hair_color")
-  tatoo     String
-  posts     Post[]
-}
-
-model bdsmActivity {
-  id   Int    @id @unique @default(autoincrement())
-  name String
-}
-
 model Country {
   id     Int     @id @unique @default(autoincrement())
   name   String
   states State[]
   slug   String
+  posts  Post[]
 }
 
 model State {
@@ -94,6 +81,7 @@ model State {
   countryId Int
   cities    City[]
   slug      String
+  posts     Post[]
 }
 
 model City {
@@ -102,4 +90,38 @@ model City {
   state   State  @relation(fields: [stateId], references: [id])
   stateId Int
   slug    String
+  posts   Post[]
+}
+
+model Payment {
+  id   Int    @id @unique @default(autoincrement())
+  name String
+
+  @@map("payment_options")
+}
+
+model HairColor {
+  id   Int    @id @unique @default(autoincrement())
+  name String
+
+  @@map("hair_color_options")
+}
+
+model Tatoo {
+  id   Int    @id @unique @default(autoincrement())
+  name String
+
+  @@map("tatoo_options")
+}
+
+model Ethnicity {
+  id   Int    @id @unique @default(autoincrement())
+  name String
+
+  @@map("ethnicity_options")
+}
+
+model BdsmActivity {
+  id   Int    @id @unique @default(autoincrement())
+  name String
 }
