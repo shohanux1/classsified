@@ -29,7 +29,7 @@ const CityPost = () => {
     };
 
     fetchPost();
-  }, []);
+  }, [pathname]);
 
   return (
     <div className="max-w-5xl px-4 mx-auto h-screen py-10">

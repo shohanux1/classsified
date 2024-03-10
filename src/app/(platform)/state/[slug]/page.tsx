@@ -28,7 +28,7 @@ const State = () => {
     };
 
     fetchCities();
-  }, [pathName]);
+  }, [pathName, splitCity]);
 
   const fixPathName = (value: string) => {
     return value.toLowerCase().split(" ").join("-");
