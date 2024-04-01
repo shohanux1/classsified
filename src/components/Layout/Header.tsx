@@ -32,13 +32,16 @@ const Header = async () => {
               </Button>
             </Link>
             <div>
-              <h1 className="text-slate-800 transition-all hover:underline hover:text-primary cursor-pointer">
+              <Link
+                href={"/manage-post"}
+                className="text-slate-800 transition-all hover:underline hover:text-primary cursor-pointer"
+              >
                 {session?.user.email}
-              </h1>
+              </Link>
               <div className="flex items-center  space-x-2 text-sm ">
                 <Link
                   className="text-slate-600 transition-all hover:underline hover:text-primary"
-                  href={"/"}
+                  href={"/manage-post"}
                 >
                   your account
                 </Link>

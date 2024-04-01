@@ -35,7 +35,7 @@ const State = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10 h-full min-h-[70vh]">
+    <div className="max-w-5xl mx-auto px-4 py-10">
       <div className=" space-y-1 mb-8">
         <div>
           <h1 className="capitalize text-2xl">{state}</h1>

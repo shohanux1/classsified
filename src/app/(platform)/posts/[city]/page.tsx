@@ -23,7 +23,7 @@ const CityPost = () => {
   }, [pathname]);
 
   return (
-    <div className="max-w-5xl px-4 mx-auto h-screen py-10">
+    <div className="max-w-5xl px-4 mx-auto py-10">
       <DataTable data={posts} />
     </div>
   );

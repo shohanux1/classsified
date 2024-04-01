@@ -53,7 +53,6 @@ export async function POST(req: NextRequest): Promise<void | Response> {
         receiveCall,
         pictures,
         published,
-        // authorId: 1,
         authorId: Number(session?.user.id),
         ethnicity,
         hairColor,
@@ -73,5 +72,30 @@ export async function POST(req: NextRequest): Promise<void | Response> {
       { error: "Internal Server Error" },
       { status: 500 }
     );
+  }
+}
+
+export async function GET(req: any, { params }: { params: { id: number } }) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (session.user.role !== "ADMIN") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  try {
+    const posts = await db.post.findMany({
+      include: {
+        city: true,
+      },
+      take: 10,
+    });
+
+    return NextResponse.json(posts, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(error, { status: 500 });
   }
 }

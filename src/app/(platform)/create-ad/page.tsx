@@ -37,13 +37,9 @@ import MultipleCheckbox from "@/components/custom/MultipleCheckbox";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
-interface City {
-  id: number;
-  name: string;
-  slug: string;
-  stateId: number;
-}
+import type { PutBlobResult } from "@vercel/blob";
+import useFetch from "@/hooks/useFetch";
+import { City } from "@prisma/client";
 
 interface StateProps {
   id: number;
@@ -136,7 +132,7 @@ const FormSchema = z.object({
     required_error: "Please type your valid number",
   }),
   receiveCall: z.boolean().default(false),
-  pictures: z.array(z.any()).optional(),
+  pictures: z.array(z.any()),
   seeClient: z.array(z.number()).optional(),
   workingHours: z.string().optional(),
   paymentMethods: z.array(z.number()).optional(),
@@ -150,7 +146,6 @@ const FormSchema = z.object({
 
 export default function Post() {
   const session = useSession();
-  const [option, setOption] = useState<OptionProps>();
   const [states, setStates] = useState<StateProps[]>();
   const [cities, setCities] = useState<StateProps[]>();
   const [loading, setloading] = useState(false);
@@ -200,6 +195,18 @@ export default function Post() {
         disclaimer,
       } = data;
 
+      const uploadPromises = (pictures || []).map(async (picture) => {
+        const response = await fetch(`/api/file?filename=${picture.name}`, {
+          method: "POST",
+          body: picture,
+        });
+
+        const newBlob = (await response.json()) as PutBlobResult;
+        return newBlob.url;
+      });
+
+      const uploadedImages = await Promise.all(uploadPromises);
+
       await axios.post(
         "/api/post",
         {
@@ -207,14 +214,14 @@ export default function Post() {
           stateId: Number(state),
           cityId: Number(city),
           title,
-          age: Number(city),
+          age: Number(age),
           location,
           categoryId: Number(category),
           serviceGender: serviceType,
           postBody,
           contact,
           receiveCall,
-          pictures: [""],
+          pictures: uploadedImages,
           ethnicity,
           hairColor,
           tatoo,
@@ -229,7 +236,7 @@ export default function Post() {
       );
       setloading(false);
       toast.success("Your post has been successfully created");
-      router.push("/my-account");
+      router.push("/manage-post");
     } catch (error: any) {
       toast.error(error.message);
       setloading(false);
@@ -257,18 +264,12 @@ export default function Post() {
     }
   };
 
-  useEffect(() => {
-    const getOptions = async () => {
-      try {
-        const { data } = await axios.get("/api/options");
-        setOption(data);
-      } catch (error) {
-        toast.error(`${error}`);
-      }
-    };
+  const { data } = useFetch<OptionProps>({
+    url: "/api/options",
+  });
 
+  useEffect(() => {
     getStates();
-    getOptions();
   }, []);
 
   function handleFileChange(event: any, field: any) {
@@ -278,7 +279,7 @@ export default function Post() {
   }
 
   return (
-    <div className="max-w-5xl px-4 mx-auto h-full py-5 md:py-10">
+    <div className="max-w-5xl px-4 mx-auto py-5 md:py-10">
       <h1 className="text-2xl md:text-3xl text-slate-700 mb-3">
         Create your post
       </h1>
@@ -390,7 +391,7 @@ export default function Post() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {option?.categories.map(({ id, name }) => (
+                      {data?.categories.map(({ id, name }) => (
                         <SelectItem key={id} value={`${id}`}>
                           {name}
                         </SelectItem>
@@ -406,7 +407,7 @@ export default function Post() {
 
           <AdRules />
 
-          <div className="mt-10">
+          <div className="mt-10 mb-4">
             <Accordion
               className="w-full mt-10 flex flex-col gap-3"
               type="multiple"
@@ -589,7 +590,7 @@ export default function Post() {
                       name="paymentMethods"
                       render={({ field }) => (
                         <CheckboxWithLabel
-                          data={option?.payment}
+                          data={data?.payment}
                           title="What payment method do you accept?"
                           field={field}
                         />
@@ -603,7 +604,7 @@ export default function Post() {
                       name="ethnicity"
                       render={({ field }) => (
                         <CheckboxWithLabel
-                          data={option?.ethnicity}
+                          data={data?.ethnicity}
                           title="Your race / ethnicity"
                           field={field}
                         />
@@ -615,7 +616,7 @@ export default function Post() {
                       name="hairColor"
                       render={({ field }) => (
                         <MultipleCheckbox
-                          data={option?.haircolor}
+                          data={data?.haircolor}
                           title="Hair color"
                           field={field}
                         />
@@ -628,7 +629,7 @@ export default function Post() {
                       render={({ field }) => (
                         <SingleCheckbox
                           field={field}
-                          data={option?.tatoo}
+                          data={data?.tatoo}
                           title="Tatoo"
                         />
                       )}
@@ -642,7 +643,7 @@ export default function Post() {
                   name="bdsmActivity"
                   render={({ field }) => (
                     <CheckboxWithLabel
-                      data={option?.bdsm}
+                      data={data?.bdsm}
                       title="BDSM activities"
                       field={field}
                     />

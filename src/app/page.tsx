@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import Providercard from "@/components/custom/ProviderCard";
 import ProviderPhotos from "@/components/custom/ProviderPhotos";
-import HeroImage from "../../../public/condom.jpeg";
+import HeroImage from "../../public/condom.jpeg";
 import { Accordion } from "@/components/ui/accordion";
 import { db } from "@/lib/db";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,8 +20,6 @@ const getCountry = async () => {
 
 export default async function Home() {
   const countries = await getCountry();
-
-  console.log(countries);
 
   return (
     <div className="max-w-5xl mx-auto px-4 pb-10">

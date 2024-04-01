@@ -35,7 +35,7 @@ const SingleCheckbox = ({
       <div
         className={cn(
           "md:col-span-2 grid items-start gap-3 md:gap-4",
-          data?.length === 3 ? "grid-cols-3" : "grid-cols-2"
+          data?.length === 3 ? "grid-cols-2 md:grid-cols-3" : "grid-cols-2"
         )}
       >
         {data?.map(({ name, id }: { name: string; id: number }) => (

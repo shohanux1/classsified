@@ -1,21 +1,22 @@
 import React from "react";
 import Footer from "@/components/Layout/Footer";
 import Header from "@/components/Layout/Header";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
 };
 
-const AuthLayout = ({ children }: AuthLayoutProps) => {
-  return (
-    <div className="flex flex-col h-full">
-      <Header />
-      <div className="flex-1">{children}</div>
-      <Footer />
-    </div>
-  );
+const AuthLayout = async ({ children }: AuthLayoutProps) => {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    redirect("/");
+  }
+
+  return <>{children}</>;
 };
 
 export default AuthLayout;

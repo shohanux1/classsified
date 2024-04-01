@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "react-hot-toast";
 import Provider from "@/components/provider";
+import Header from "@/components/Layout/Header";
+import Footer from "@/components/Layout/Footer";
 
 const montserrat = Poppins({
   subsets: ["latin"],
@@ -26,7 +28,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(montserrat.className)}>
         <Provider>
-          <div className="h-full">{children}</div>
+          <Header />
+          {children}
+          <Footer />
           <Toaster position="top-center" reverseOrder={false} />
         </Provider>
       </body>

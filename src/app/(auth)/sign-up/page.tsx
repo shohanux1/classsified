@@ -80,14 +80,8 @@ const SignUp = () => {
     }
   };
 
-  useEffect(() => {
-    if (session.status === "authenticated") {
-      router.push("/");
-    }
-  }, [session, router]);
-
   return (
-    <div className="flex items-center justify-center px-4 py-8 md:py-14">
+    <div className="flex justify-center items-center h-full px-4 ">
       <Card className=" w-full max-w-lg">
         <CardHeader>
           <CardTitle className="text-2xl font-medium">
@@ -166,7 +160,7 @@ const SignUp = () => {
         <CardFooter className="flex flex-col items-center text-slate-700">
           <h1 className="text-sm text-slate-600">
             Already have an account?
-            <Link className="text-primary ml-2" href={"/sign-up"}>
+            <Link className="text-primary ml-2" href={"/sign-in"}>
               Login now
             </Link>
           </h1>

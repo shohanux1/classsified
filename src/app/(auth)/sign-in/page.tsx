@@ -62,15 +62,9 @@ const Signin = () => {
     }
   };
 
-  useEffect(() => {
-    if (session.status === "authenticated") {
-      router.push("/");
-    }
-  }, [session, router]);
-
   return (
-    <div className="flex items-center justify-center px-4 h-full">
-      <Card className=" w-full max-w-lg">
+    <div className="flex justify-center items-center h-full px-4 ">
+      <Card className=" w-full max-w-lg ">
         <CardHeader>
           <CardTitle className="text-2xl font-medium">
             Log in to your account

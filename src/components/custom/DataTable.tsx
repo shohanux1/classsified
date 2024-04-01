@@ -8,24 +8,9 @@ import {
   TableRow,
 } from "../ui/table";
 import Link from "next/link";
+import { City, Post } from "@prisma/client";
 
-interface CityProps {
-  id: number;
-  name: string;
-}
-
-interface DataProps {
-  id: number;
-  title: string;
-  age: number;
-  city: CityProps;
-}
-
-interface DataTableProps {
-  data: DataProps[];
-}
-
-const DataTable = ({ data }: DataTableProps) => {
+const DataTable = ({ data }: { data?: (Post & { city?: City })[] }) => {
   return (
     <Table>
       <TableHeader>
@@ -42,13 +27,16 @@ const DataTable = ({ data }: DataTableProps) => {
             <TableRow key={id}>
               <TableCell className="text-slate-700 py-4">{id}</TableCell>
               <TableCell className="text-slate-700 py-4 capitalize">
-                <Link href={"/post"} className="hover:underline transition">
+                <Link
+                  href={`/posts/${city?.slug}/${id}`}
+                  className="hover:underline transition"
+                >
                   {title}
                 </Link>
               </TableCell>
               <TableCell className="text-slate-700 py-4">{age}</TableCell>
               <TableCell className="text-right text-slate-700 py-4 capitalize">
-                {city.name}
+                {city?.name}
               </TableCell>
             </TableRow>
           );

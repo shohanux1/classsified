@@ -1,23 +1,20 @@
-import Filter from "@/components/Layout/Filter";
-import Footer from "@/components/Layout/Footer";
-import Header from "@/components/Layout/Header";
 import React from "react";
-
-//custom component
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 
 const Layout = async ({ children }: LayoutProps) => {
-  return (
-    <div className="flex flex-col bg-white">
-      <Header />
-      <Filter />
-      <div className="flex-1">{children}</div>
-      <Footer />
-    </div>
-  );
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/sign-in");
+  }
+
+  return <div className="min-h-full">{children}</div>;
 };
 
 export default Layout;
